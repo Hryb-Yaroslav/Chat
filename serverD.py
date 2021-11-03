@@ -1,29 +1,29 @@
-import socket, threading  # Импорт библиотек
+import socket, threading  
 
 import Cezar
 
-host = '192.168.1.10'  # Локальный хост компьютера
-port = 53261  # Выбор незарезервированного порта
+host = '192.168.1.10' 
+port = 53261  
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Инициализация сокета
-server.bind((host, port))  # Назначение хоста и порта к сокету
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+server.bind((host, port))  
 server.listen()
 
 clients = []
 nicknames = []
 
 
-def broadcast(message):  # Функция связи
+def broadcast(message):  
     for client in clients:
         client.send(message)
 
 
 def handle(client):
     while True:
-        try:  # Получение сообщений от клиента
+        try:
             message = client.recv(1024)
             broadcast(message)
-        except:  # Удаление клиентов
+        except:  
             index = clients.index(client)
             clients.remove(client)
             client.close()
@@ -33,7 +33,7 @@ def handle(client):
             break
 
 
-def receive():  # Подключение нескольких клиентов
+def receive(): 
     while True:
         client, address = server.accept()
         print("Соединён с {}".format(str(address)))
