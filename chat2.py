@@ -4,10 +4,10 @@ import Cezar
 
 nickname = input("Введіть ім'я користувача:  ")
 nickname = " >"+nickname
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Инициализация сокета
-client.connect(('192.168.1.10', 53261))  # Соединение клиента с сервером
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
+client.connect(('192.168.1.10', 53261))  
 def receive():
-        while True:  # Подтверждение соединения
+        while True: 
             try:
                 message = client.recv(1024).decode('utf-8')
                 sd = (message).split("-")
@@ -27,12 +27,12 @@ def receive():
                         #pass
                 if message == 'NICKNAME':
                     client.send(nickname.encode('utf-8'))
-            except:  # Если неправильный ip или порт
+            except:  
                 print("Ошибка!")
                 client.close()
                 break
 def write():
-    while True:  # Вывод сообщений в чат
+    while True:  
         a = input()
         if a == "" or a == "/yes" or a == "/no":
             pass
@@ -43,7 +43,7 @@ def write():
             client.send(message.encode('utf-8'))
 
 k = 1
-receive_thread = threading.Thread(target=receive)  # Получение всех сообщений
+receive_thread = threading.Thread(target=receive) 
 receive_thread.start()
-write_thread = threading.Thread(target=write) # Отправка всех сообщени
+write_thread = threading.Thread(target=write) 
 write_thread.start()
